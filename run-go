@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [[ "${1}" =~ "listenAndServe(" ]]; then
+  echo -n "${1}" > serve/main.go
+  go build -o /tmp/run ./serve
+  exec /tmp/run "${@:2}"
+fi
+
+echo -n "${1}" > main.go
+go build -o /tmp/run .
+exec /tmp/run "${@:2}"
